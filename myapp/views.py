@@ -7,7 +7,8 @@ from dateutil.parser import parse as date_parse
 from .models import *
 from .serializer import *
 from django.contrib import messages
-# Create your views here.
+
+# home page where the expences of the logged in users are displayed
 def home(request):
     front_expences={}
     username=""
@@ -23,10 +24,12 @@ def home(request):
             filter_val = request.POST.get('name_filter')
             print(filter_val)
             front_expences = front_expences.filter(name=filter_val)
-        front_expences = expense_serializer(front_expences,many=True)
+        front_expences = expense_serializer(front_expences,many=True) #to convert the query set to json format
         front_expences = front_expences.data
 
     return render(request,'home.html',{'username':username,'expences':front_expences})
+
+# login page 
 def user_login(request):
     if(request.method=='POST'):
         form = user_login_form(request,request.POST)
@@ -47,6 +50,8 @@ def user_logout(request):
     logout(request)
     return redirect(home)
 
+
+# registration of new user
 def user_register(request):
     if request.method =='POST':
         form = new_user_form(request.POST)
@@ -60,6 +65,8 @@ def user_register(request):
         'form':form
     }
     return render(request,'register_form.html',context)
+
+# adding new expences
 @login_required
 def add_expences(request):
     if(request.method=='POST'):
