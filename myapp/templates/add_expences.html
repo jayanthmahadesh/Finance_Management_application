@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Add new expence</h2>
+    <form action="add_expences" method="post">
+      {% csrf_token %} name : <input type="text" name="name" /><br /><br />
+      date : <input type="date" name="date" /><br /><br />
+      cateogory :
+      <select name="category" id="cateogory">
+        <option value="health">Health</option>
+        <option value="electronics">Electronics</option>
+        <option value="travel">Travel</option>
+        <option value="education">Education</option>
+        <option value="books">Books</option></select
+      ><br /><br />
+      description : <input type="text" name="description" /><br /><br />
+      value : <input type="number" name="value" min="0" /><br /><br />
+      <button type="submit">add expence</button>
+    </form>
+  </body>
+</html>

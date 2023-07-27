@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Update expence</h2>
+    <form action="update_expences_two" method="post">
+      {% csrf_token %} name : <input type="text" name="name" value="{{name}}" /><br /><br />
+      date : <input type="date" name="date" value="{{date}}" /><br /><br />
+      cateogory :
+      <select name="category" id="cateogory">
+        <option value="{{category}}">{{category}}</option>
+        {%if "books" != "{{category}}" %}
+        <option value="books">Books</option>
+        {%endif%} {%if "health" != "{{category}}" %}
+        <option value="health">Health</option>
+        {%endif%} {%if "electronics" != "{{category}}" %}
+        <option value="electronics">Electronics</option>
+        {%endif%} {%if "travel" != "{{category}}" %}
+        <option value="travel">Travel</option>
+        {%endif%} {%if "education" != "{{category}}" %}
+        <option value="education">Education</option>
+        {%endif%}
+      </select>
+      <br /><br />
+      description : <input type="text" name="description" value="{{description}}" /><br /><br />
+      value : <input type="number" name="value" value="{{value}}" min="0" /><br /><br />
+      <input type="hidden" value="{{id}}" name="id" />
+      <button type="submit">update</button>
+    </form>
+  </body>
+</html>

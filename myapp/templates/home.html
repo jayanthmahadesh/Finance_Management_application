@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/home.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+      <div style="color: green">{{ message }}</div>
+    </div>
+    {% endfor %}
+    <h2>Home Page</h2>
+    {% if user.is_authenticated %}
+    <a href="logout" style="display: block; float: right">logout</a>
+
+    {% endif %} {% if not user.is_authenticated %}
+    <a href="login" style="display: block; float: right">login</a>
+    <div style="float: right">&nbsp;</div>
+    <a href="register" style="display: block; float: right">register</a> <br />
+
+    {% endif %} {% if user.is_authenticated %}
+    <a href="add_expences">add expence</a>
+    <br /><br /><br />
+    {% endif %} {% if user.is_authenticated %}
+    <form action="" method="post">
+      {% csrf_token %} name of expence:<input type="text" name="name_filter" list="filter" />
+      <button type="submit" style="cursor: pointer">filter</button>
+
+      <datalist id="filter">
+        {% for expence in expences %}
+        <option value="{{expence.name}}">{% endfor %}</option>
+      </datalist>
+    </form>
+    <br />
+    <table class="expence_table">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>category</th>
+        <th>date</th>
+        <th>update</th>
+        <th>delete</th>
+      </tr>
+      {% for expence in expences %}
+      <tr>
+        <td>{{expence.id}}</td>
+        <td>{{expence.name}}</td>
+        <td>{{expence.description}}</td>
+        <td>{{expence.category}}</td>
+        <td>{{expence.date}}</td>
+        <td>
+          {%if username == expence.created_by%}
+          <form action="update_expences" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{expence.id}}" name="id" />
+            <input type="hidden" value="{{expence.name}}" name="name" />
+            <input type="hidden" value="{{expence.value}}" name="value" />
+            <input type="hidden" value="{{expence.description}}" name="description" />
+            <input type="hidden" value="{{expence.date}}" name="date" />
+            <input type="hidden" value="{{expence.category}}" name="category" />
+            <button>update</button>
+          </form>
+          {% endif %}
+        </td>
+        <td>
+          {%if username == expence.created_by%}
+          <form action="delete_expences" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{expence.id}}" name="id" />
+            <button>delete</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </body>
+</html>
+<!-- ______               _    _ ______  
+    (_____ \             \ \  / (_____ \ 
+     _____) )___ ____  ___\ \/ / _____) )
+    |  ____/ _  ) _  )/ ___)  ( |  ____/ 
+    | |   ( (/ ( (/ /| |  / /\ \| |      
+    |_|    \____)____)_| /_/  \_\_|      
+                                      -->
